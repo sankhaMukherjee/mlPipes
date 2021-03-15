@@ -27,3 +27,9 @@ spec:
           image: nginx:1.16
           ports:
             - containerPort: 8080
+          env:
+            - name: SOME_ENV_VAR
+              valueFrom:
+                secretKeyRef:
+                   name: mongodb-secret
+                   key: mongo-root-username
