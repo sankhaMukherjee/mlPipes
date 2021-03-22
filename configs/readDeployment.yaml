@@ -27,11 +27,11 @@ spec:
     spec:
       containers:
         - name: read-data
-          image: read-data:0.01
+          image: 387826921024.dkr.ecr.ap-southeast-1.amazonaws.com/read-data:0.01
           volumeMounts:
             - mountPath: "/data"
               name: read-data
       volumes:
         - name: read-data
           persistentVolumeClaim: 
-            claimName: pv0001
+            claimName: pvc0001
