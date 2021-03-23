@@ -2,7 +2,7 @@
 
 Information about creating ML Pipelines using kubernetes
 
-## 1. Make sure that the docker stuff is working
+# 1. Docker: Make sure that the docker stuff is working
 
 1. Create a docker container that writes data to a docker volume (`docker build -t write-data:0.01 .` within `writeData`)
 2. Create a docker container that reads data from a docker volume (`docker build -t read-data:0.01 .` within `readData`)
@@ -12,7 +12,25 @@ Information about creating ML Pipelines using kubernetes
 
 If we are able to read the data properly, we know that we are ready to get to the next stage ...
 
-## 2. Start working on minikube
+# 2. Minikube: Start working on minikube
+
+1. Install Minikube
+1. Create a `pv` (persistant volume) (`kubectl apply -f configs/ai-volume.yaml`)
+2. Create a `pvc` (persistant volume claim) (`kubectl apply -f configs/ai-volume-claim.yaml`) 
+3. Put the docker as the minikube doccker in the docker in the current terminal (`eval (minikube docker-env)`)
+4. build the docker image for writing data: (`docker build -t write-data:0.01 .` within `writeData`)
+5. build the docker image for reading data: (`docker build -t write-data:0.01 .` within `writeData`)
+6. Write data to the persistent volume claim (`kubectl apply -f configs/writeDeployment.yaml`)
+7. Check that the data is written (`kubectl logs <write-data-name-of-pod>`)
+8. Read data from the persistent volume claim (`kubectl apply -f configs/readDeployment.yaml`)
+9. Check that the data is written (`kubectl logs <read-data-name-of-pod>`)
+
+
+# 3. Kubeflow
+
+
+
+## 2.1. Minikube Reference
 
 Allow ECR to be used ...
 
@@ -25,17 +43,13 @@ commands within your minikube cluster. Being able to do this is critical.
 
 https://minikube.sigs.k8s.io/docs/handbook/pushing/
 https://stackoverflow.com/questions/42564058/how-to-use-local-docker-images-with-minikube/42564211#42564211
+https://github.com/kubernetes/minikube/blob/0c616a6b42b28a1aab8397f5a9061f8ebbd9f3d9/README.md#reusing-the-docker-daemon
+https://medium.com/bb-tutorials-and-thoughts/how-to-use-own-local-doker-images-with-minikube-2c1ed0b0968
+https://minikube.sigs.k8s.io/docs/handbook/pushing/
+https://kubernetes.io/docs/tasks/access-application-cluster/list-all-running-container-images/
 
 For this, check the specific information within ECR
 `kubectl create secret docker-registry regcred --docker-server=<your-registry-server> --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>`
-
-
-
-
-1. Install Minikube
-1. Create a `pv` (persistant volume) (`kubectl apply -f configs/ai-volume.yaml`)
-2. Create a `pvc` (persistant volume claim) () 
-
 
 aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 387826921024.dkr.ecr.ap-southeast-1.amazonaws.com
 
