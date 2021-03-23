@@ -28,7 +28,24 @@ If we are able to read the data properly, we know that we are ready to get to th
 
 # 3. Kubeflow
 
+0. restart minikube with the right resources
 
+`minikube start --cpus 4 --memory 8096 --disk-size=40g`  --> This is giving some problem (not enough resources for dicker)
+
+1. Install kubeflow
+   1.1. Download the required `tar` file
+   1.2. Unzip the file, and put it in a good location
+   1.3. set the paths to `kfctl`, the base folder, and the kubeflow folder
+
+`set -x PATH $PATH /Users/sankhamukherjee/Documents/installers/kubeflow/`
+`set -x BASE_DIR /Users/sankhamukherjee/Documents/installers/kubeflow/`
+`set -x KF_DIR /Users/sankhamukherjee/Documents/installers/kubeflow/kf-test`
+
+2. Set up kubeflow
+
+`kfctl apply -V -f https://raw.githubusercontent.com/kubeflow/manifests/v1.2-branch/kfdef/kfctl_k8s_istio.v1.2.0.yaml`
+
+WARN[0613] Encountered error applying application kubeflow-apps:  (kubeflow.error): Code 500 with message: Apply.Run : error when creating "/tmp/kout348277295": Internal error occurred: failed calling webhook "webhook.cert-manager.io": the server is currently unable to handle the request  filename="kustomize/kustomize.go:284
 
 ## 2.1. Minikube Reference
 
