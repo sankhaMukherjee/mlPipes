@@ -20,6 +20,12 @@ The information in the following location may be used:
  - https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 
 
+In a particular terminal, run (`eval (minikube docker-env)`). This is going to allow you to run all docker
+commands within your minikube cluster. Being able to do this is critical.
+
+https://minikube.sigs.k8s.io/docs/handbook/pushing/
+https://stackoverflow.com/questions/42564058/how-to-use-local-docker-images-with-minikube/42564211#42564211
+
 For this, check the specific information within ECR
 `kubectl create secret docker-registry regcred --docker-server=<your-registry-server> --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>`
 

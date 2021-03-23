@@ -27,7 +27,8 @@ spec:
     spec:
       containers:
         - name: write-data
-          image: 387826921024.dkr.ecr.ap-southeast-1.amazonaws.com/write-data:0.01
+          # image: 387826921024.dkr.ecr.ap-southeast-1.amazonaws.com/write-data:0.01
+          image: localhost/write-data:0.01
           volumeMounts:
             - mountPath: "/data"
               name: write-data
