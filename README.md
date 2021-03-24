@@ -26,6 +26,21 @@ If we are able to read the data properly, we know that we are ready to get to th
 9. Check that the data is written (`kubectl logs <read-data-name-of-pod>`)
 
 
+# 4. kfp
+
+## 4.1. Lightweight Python components
+
+Kubeflow pipelines (`kfp`) can be generated directly without the need for creating an entire kubeflow
+installation. In this section, we shall explore how that can be achieved. This is something that
+should be possible to do very easily. 
+
+1. Install Minikube, start Minikube
+2. Install a virtual environment 
+
+```bash
+python3 -m venv env
+```
+
 # 3. Kubeflow
 
 0. restart minikube with the right resources
