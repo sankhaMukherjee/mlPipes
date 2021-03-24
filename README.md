@@ -39,6 +39,11 @@ should be possible to do very easily.
 
 ```bash
 python3 -m venv env
+source env/bin/activate.fish
+pip3 install --upgrade pip
+pip3 install numpy
+pip3 install jupyter notebook
+pip3 install kfp
 ```
 
 # 3. Kubeflow
