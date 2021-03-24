@@ -28,21 +28,25 @@ If we are able to read the data properly, we know that we are ready to get to th
 
 
 ----
-# 4. kfp
+# 4. Local Kubeflow
 
-## 4.1. Lightweight Python components
-
-### 4.1.1. deploy kubeflow pipelines on a local cluster
+## 4.1. deploy kubeflow pipelines on a local cluster
 
 1. Use `kind` : `brew install kind`
 2. Install kubeflow
+    ```
+    export PIPELINE_VERSION=1.4.1
+    kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=$PIPELINE_VERSION"
+    kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.io
+    kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/env/platform-agnostic-pns?ref=$PIPELINE_VERSION"
+    ```
+3. Make sure that all pods have started -> `watch -n 0.5 kubectl get pods --all-namespaces`
+4. Forward the port `kubectl port-forward -n kubeflow svc/ml-pipeline-ui 8080:80`
+5. Go to `120.0.0.1:8080` on your browser to see the kubectl dashboard
 
-```
-export PIPELINE_VERSION=1.4.1
-kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=$PIPELINE_VERSION"
-kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.io
-kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/env/platform-agnostic-pns?ref=$PIPELINE_VERSION"
-```
+## 4.2. Lightweight Python components
+
+Generate lightweight python components using the kfp pipes API
 
 2. Install a virtual environment 
 
