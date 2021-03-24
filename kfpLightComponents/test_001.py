@@ -1,6 +1,15 @@
 # Example copied form the website:
-# https://github.com/kubeflow/pipelines/blob/master/samples/core/lightweight_component/lightweight_component.ipynb
 
+# --------------------------------
+# First deploy a kubeflow cluster
+# --------------------------------
+# https://www.kubeflow.org/docs/components/pipelines/installation/localcluster-deployment/
+
+# --------------------------------
+# Then run this ...
+# --------------------------------
+# https://github.com/kubeflow/pipelines/blob/master/samples/core/lightweight_component/lightweight_component.ipynb
+# https://www.kubeflow.org/docs/components/pipelines/sdk/sdk-overview/
 import kfp
 import kfp.components as comp
 import kfp.dsl as dsl
@@ -32,11 +41,11 @@ def main():
 
    #Specify pipeline argument values
    arguments = {'a': '7', 'b': '8'}
-   # result = kfp.Client('127.0.0.1:8080/pipeline').create_run_from_pipeline_func(pipeline, arguments=arguments)
-   # print(result)
+   result = kfp.Client().create_run_from_pipeline_func(pipeline, arguments=arguments)
+   print(result)
    
-   client = kfp.Client(host='127.0.0.1')
-   print( client.list_pipelines() )
+   # client = kfp.Client()
+   # print( client.list_pipelines() )
    
 
    return

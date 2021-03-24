@@ -26,15 +26,24 @@ If we are able to read the data properly, we know that we are ready to get to th
 9. Check that the data is written (`kubectl logs <read-data-name-of-pod>`)
 
 
+
+----
 # 4. kfp
 
 ## 4.1. Lightweight Python components
 
-Kubeflow pipelines (`kfp`) can be generated directly without the need for creating an entire kubeflow
-installation. In this section, we shall explore how that can be achieved. This is something that
-should be possible to do very easily. 
+### 4.1.1. deploy kubeflow pipelines on a local cluster
 
-1. Install Minikube, start Minikube
+1. Use `kind` : `brew install kind`
+2. Install kubeflow
+
+```
+export PIPELINE_VERSION=1.4.1
+kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=$PIPELINE_VERSION"
+kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.io
+kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/env/platform-agnostic-pns?ref=$PIPELINE_VERSION"
+```
+
 2. Install a virtual environment 
 
 ```bash
@@ -45,6 +54,19 @@ pip3 install numpy
 pip3 install jupyter notebook
 pip3 install kfp
 ```
+
+3. Run a pipeline `python3 kfpLightComponents/test_001.py`
+
+Result: 
+`RunPipelineResult(run_id=e4676be1-5af5-4f6f-a30b-7c7170e4934a)`
+
+
+## Reference:
+https://www.kubeflow.org/docs/components/pipelines/installation/localcluster-deployment/
+
+
+
+
 
 # 3. Kubeflow
 
