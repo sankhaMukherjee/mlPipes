@@ -42,7 +42,7 @@ If we are able to read the data properly, we know that we are ready to get to th
     ```
 3. Make sure that all pods have started -> `watch -n 0.5 kubectl get pods --all-namespaces`
 4. Forward the port `kubectl port-forward -n kubeflow svc/ml-pipeline-ui 8080:80`
-5. Go to `120.0.0.1:8080` on your browser to see the kubectl dashboard
+5. Go to `127.0.0.1:8080` on your browser to see the kubectl dashboard
 
 ## 4.2. Lightweight Python components
 
@@ -70,7 +70,13 @@ https://www.kubeflow.org/docs/components/pipelines/installation/localcluster-dep
 
 
 
+## 4.3. Use reusable components
 
+We shall solve the same problem as the previous case, but now with reusable components. We shall generate
+the addition and multiplicaiton components as docker containers, and then use those directly as components
+withon Kubeflow. 
+
+----
 
 # 3. Kubeflow
 
