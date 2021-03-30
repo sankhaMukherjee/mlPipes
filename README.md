@@ -33,6 +33,17 @@ If we are able to read the data properly, we know that we are ready to get to th
 ## 4.1. deploy kubeflow pipelines on a local cluster
 
 1. Use `kind` : `brew install kind`
+    ```bash
+    or curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64
+    chmod +x ./kind
+    mv ./kind /some-dir-in-your-PATH/kind
+    ```
+2. Create a cluster -> `kind create cluster`
+3. Install `kubectl`
+    ```
+    curl -LO https://dl.k8s.io/release/v1.20.0/bin/linux/amd64/kubectl
+    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+    ```
 2. Install kubeflow
     ```
     export PIPELINE_VERSION=1.4.1
@@ -69,14 +80,56 @@ Result:
 https://www.kubeflow.org/docs/components/pipelines/installation/localcluster-deployment/
 
 
-
 ## 4.3. Use reusable components
 
 We shall solve the same problem as the previous case, but now with reusable components. We shall generate
 the addition and multiplicaiton components as docker containers, and then use those directly as components
 withon Kubeflow. 
 
+An example of the `addComp` is present in the folder `kfpReusableComponents`. The difference between the previous implementation and this version is that, `addComp` is converted into a docker container and puhsed to the docker repository `docker.io/omolluska/test-kuberflow-add`. This will allow the add operation to be performed directly. The steps to follow are:
+
+1. Build the docker image and puhs it into the repo:
+    1.1. `cd kfpReusableComponents/addComp`
+    1.2. `./buildImage.sh`
+    1.3. `cd ..`
+2. Create a pipeline and run it -> `python3 pip3line.py`
+
 ----
+
+
+# 3. AWS Installation
+
+Requirements for the machine: 
+ - 4CPU
+ - 50GB Storage
+ - 12GB Memory
+
+Possible Instances:
+
+1. c5.2xlarge -> capacity
+ - 8CPU, 15GB memory, EBS volume (add 100GB SSD just for safety)
+ - SSD (/dev/sda1)
+
+
+```
+Please use one of the following commands to start the required environment with the framework of your choice:
+for AWS MX 1.7 (+Keras2) with Python3 (CUDA 10.1 and Intel MKL-DNN) _______________________________ source activate mxnet_p36
+for AWS MX 1.8 (+Keras2) with Python3 (CUDA + and Intel MKL-DNN) ___________________________ source activate mxnet_latest_p37
+for AWS MX(+AWS Neuron) with Python3 ___________________________________________________ source activate aws_neuron_mxnet_p36
+for AWS MX(+Amazon Elastic Inference) with Python3 _______________________________________ source activate amazonei_mxnet_p36
+for TensorFlow(+Keras2) with Python3 (CUDA + and Intel MKL-DNN) _____________________________ source activate tensorflow_p37
+for Tensorflow(+AWS Neuron) with Python3 _________________________________________ source activate aws_neuron_tensorflow_p36
+for TensorFlow 2(+Keras2) with Python3 (CUDA 10.1 and Intel MKL-DNN) _______________________ source activate tensorflow2_p36
+for TensorFlow 2.3 with Python3.7 (CUDA + and Intel MKL-DNN) ________________________ source activate tensorflow2_latest_p37
+for PyTorch 1.4 with Python3 (CUDA 10.1 and Intel MKL) _________________________________________ source activate pytorch_p36
+for PyTorch 1.7.1 with Python3.7 (CUDA 11.1 and Intel MKL) ________________________________ source activate pytorch_latest_p37
+for PyTorch (+AWS Neuron) with Python3 ______________________________________________ source activate aws_neuron_pytorch_p36
+for base Python3 (CUDA 10.0) _______________________________________________________________________ source activate python3
+```
+
+These can now be directly used. However, for our purposes, we shall install other things that we need
+
+1. Create an instance 
 
 # 3. Kubeflow
 
