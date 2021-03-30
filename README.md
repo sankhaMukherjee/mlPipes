@@ -59,21 +59,18 @@ If we are able to read the data properly, we know that we are ready to get to th
 
 Generate lightweight python components using the kfp pipes API
 
-2. Install a virtual environment 
-
-```bash
-python3 -m venv env
-source env/bin/activate.fish
-pip3 install --upgrade pip
-pip3 install numpy
-pip3 install jupyter notebook
-pip3 install kfp
-```
-
-3. Run a pipeline `python3 kfpLightComponents/test_001.py`
-
-Result: 
-`RunPipelineResult(run_id=e4676be1-5af5-4f6f-a30b-7c7170e4934a)`
+1. Install a virtual environment 
+    ```bash
+    python3 -m venv env
+    source env/bin/activate.fish
+    pip3 install --upgrade pip
+    pip3 install numpy
+    pip3 install jupyter notebook
+    pip3 install kfp
+    ```
+2. Run a pipeline `python3 kfpLightComponents/test_001.py`
+    Result: 
+    `RunPipelineResult(run_id=e4676be1-5af5-4f6f-a30b-7c7170e4934a)`
 
 
 ## Reference:
@@ -129,7 +126,9 @@ for base Python3 (CUDA 10.0) ___________________________________________________
 
 These can now be directly used. However, for our purposes, we shall install other things that we need
 
-1. Create an instance 
+1. Create an instance, install all necessary components ...
+2. Install `kind` and `kubeflow`, and complete all processes that is part of Section 4.1.
+3. 
 
 # 3. Kubeflow
 
