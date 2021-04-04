@@ -43,6 +43,22 @@ def downloadFile(website):
     return
 
 def unzipFile(inpFile):
+    '''unzups a gzipped file
+
+    This function takes a gzipped file and unzipps it. Unlike the cli
+    version, this file does not remove the original file from the folder
+    but rather keeps it
+
+    Parameters
+    ----------
+    inpFile : str
+        The path of the input file
+
+    Returns
+    -------
+    str
+        The path to the output file. If there was an error, a None is returned.
+    '''
 
     try:
 
@@ -66,12 +82,30 @@ def unzipFile(inpFile):
 def readImages(fileName):
 
     try:
-        with open(fileName, 'rb') as f:
-            temp = f.read(4*4)
-            magicNumber, N, rows, cols = struct.unpack('>llll', temp)
-            print(magicNumber, N, rows, cols)
 
-            nPixels = N*rows*cols
+        with open(fileName, 'rb') as f:
+            temp = f.read(4*2)
+            magicNumber, N, = struct.unpack('>ll', temp)
+            print(f'+--------------------------------------------------------')
+            print(f'| Data Specs')
+            print(f'+--------------------------------------------------------')
+            print(f'| magic number = {magicNumber}')
+            print(f'| number of items = {N}')
+
+            if magicNumber == 2051:
+                print('| Type of data = image list')
+                temp = f.read(4*2)
+                rows, cols = struct.unpack('>ll', temp)
+                print(f'| image size = {rows} x {cols}')
+            else:
+                print('| Type of data = label list')
+
+            print(f'+--------------------------------------------------------')
+
+            if magicNumber == 2051:
+                nPixels = N*rows*cols
+            else:
+                nPixels = N
 
             formatString = f'>{nPixels}B'
             nBytes = f.read( nPixels )
@@ -79,7 +113,17 @@ def readImages(fileName):
             data = struct.unpack(formatString, nBytes)
             data = np.array( data )
             data = data.reshape((N, -1))
-            print(data.shape)
+
+            print(f'| shape if read data = {data.shape}')
+
+        outFile = fileName + '.npy'
+        np.save( outFile, data )
+
+        print(f'| Data saved to {outfile}')
+        print(f'+--------------------------------------------------------')
+
+
+        return(outFile)
 
 
     except Exception as e:
@@ -128,6 +172,8 @@ def main():
     if (args.todo == 'extract') and (args.file is not None):
         result = unzipFile(args.file)
     
+    if (args.todo == 'toNumpy') and (args.file is not None):
+        result = readImages(args.file)
     
     # -----------------------------
     # Post processing
